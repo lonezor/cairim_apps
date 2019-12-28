@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
     auto cap_scene = std::shared_ptr<scene>(new winter_scene(capture_width,
                                           capture_height,
                                           cap_rc,
-                                          level_of_detail_capture));
+                                          1));
 
     auto cap_handler = capture_handler(cap_scene, window, cap_rc);
 
@@ -123,12 +123,22 @@ int main(int argc, char* argv[])
     auto rep_scene = std::shared_ptr<scene>(new winter_scene(scale_ref_width,
                                                              scale_ref_height,
                                                              rep_rc,
-                                                             level_of_detail_replay));
+                                                             1000));
     
     
 
     // Capture user input until 'q' key is pressed
     auto frame_ctx_vector = cap_handler.run();
+
+    frame_context fc;
+    memcpy(&fc, &frame_ctx_vector[0], sizeof(fc));
+
+
+    frame_ctx_vector.clear();
+    int i;
+    for(i=0; i < 3600; i++) {
+        frame_ctx_vector.emplace_back(fc);
+    }
 
     // cap_handler.write_capture_file(frame_ctx_vector, "/tmp/out.cap");
     

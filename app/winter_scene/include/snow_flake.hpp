@@ -2,6 +2,8 @@
 
 #include <cairim/object.hpp>
 
+
+
 class snow_flake : public object
 {
     public:
@@ -9,7 +11,14 @@ class snow_flake : public object
         std::string svg_path);
 
         void draw(frame_context& fc) override;
+        void highres_mode();
 
     private:
+
+        double velocity_[2];
+        double angular_velocity_;
+        double angle_{0};
+        double wind_{0};
+        bool highres_mode_{false};
     
 };

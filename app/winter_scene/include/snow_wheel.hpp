@@ -11,5 +11,5 @@ class snow_wheel : public object
          virtual void draw(frame_context& fc);
 
     private:
-    
+        
 };
