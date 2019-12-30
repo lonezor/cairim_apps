@@ -11,6 +11,6 @@ double scroll_speed, std::shared_ptr<rendering_context> rc,
 void mountain_background::draw(frame_context& fc)
 {
     x_ -= scroll_speed_;
-    draw_svg_surface(x_, y_, 0);
+    draw_svg_surface(x_, y_, 1.0, 0.0);
 }
 

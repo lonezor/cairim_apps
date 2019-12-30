@@ -22,23 +22,19 @@ void snow_flake::draw(frame_context& fc)
     }
 
     velocity_[0] = wind_;
-    
-
     x_ += velocity_[0];
-    y_ += velocity_[1];
+    y_ += velocity_[1] - touch_force_;
 
-highres_mode_ = true;
-
-   // if (highres_mode_) {
+    if (highres_mode_) {
         angle_ -= 0.01;
         if (angle_ < 0){
             angle_ = 1;
         }
-        draw_svg_surface(x_, y_, angle_ * 2 * m_pi);
-   // } else {
-    //    rc_->set_source_rgba(1, 1, 1, 1);
-   //     rc_->arc(x_, y_, width_, 0, 2 * m_pi);
-   //     rc_->fill();
-    //}
+        draw_svg_surface(x_, y_, 1.0, angle_ * 2 * m_pi);
+    } else {
+        rc_->set_source_rgba(1, 1, 1, 1);
+        rc_->arc(x_, y_, width_, 1.0, 2 * m_pi);
+        rc_->fill();
+    }
 }
 

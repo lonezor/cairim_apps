@@ -38,10 +38,8 @@ target_compile_options(${PROJECT_NAME}
 
 install(FILES svg/snow_wheel.svg DESTINATION share/${PROJECT_NAME})
 install(FILES svg/snow_flake.svg DESTINATION share/${PROJECT_NAME})
-install(FILES svg/mountain_background_00.svg DESTINATION share/${PROJECT_NAME})
-install(FILES svg/mountain_background_01.svg DESTINATION share/${PROJECT_NAME})
-install(FILES svg/mountain_background_02.svg DESTINATION share/${PROJECT_NAME})
-install(FILES svg/mountain_background_03.svg DESTINATION share/${PROJECT_NAME})
+install(FILES svg/star.svg DESTINATION share/${PROJECT_NAME})
+install(FILES svg/mountain_background.svg DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 

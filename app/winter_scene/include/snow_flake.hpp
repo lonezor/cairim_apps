@@ -14,11 +14,10 @@ class snow_flake : public object
         void highres_mode();
 
     private:
-
+        double touch_force_{0};
         double velocity_[2];
         double angular_velocity_;
         double angle_{0};
         double wind_{0};
         bool highres_mode_{false};
-    
 };
