@@ -53,14 +53,24 @@ void server_path::discover(int max_hop_limit)
       icmp.recv_hop_limit_exceeded(hle_ip, hle_fqdn);
 
       auto n = node(hle_ip, hle_fqdn, rtt);
-      path_.emplace_back(n);
+      nodes_.emplace_back(n);
     }
+}
+
+std::vector<node> server_path::get_nodes()
+{
+  return nodes_;
+}
+
+std::string server_path::get_fqdn()
+{
+  return fqdn_;
 }
 
 void server_path::print()
 {
   int i = 0;
-  for(auto && n : path_) {
+  for(auto && n : nodes_) {
     std::cout << "{"
     << fqdn_ 
     << " / " 

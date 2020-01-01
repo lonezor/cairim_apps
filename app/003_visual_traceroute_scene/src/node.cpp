@@ -31,4 +31,9 @@ uint64_t node::get_rtt()
     return rtt_;
 }
 
+void node::increment_access_counter()
+{
+    access_counter_++;
+}
+
 } // namespace vtr

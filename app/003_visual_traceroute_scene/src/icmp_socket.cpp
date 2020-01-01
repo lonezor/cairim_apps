@@ -33,6 +33,7 @@ icmp_socket::~icmp_socket()
 bool icmp_socket::recv_hop_limit_exceeded(std::string& ip_address, std::string& fqdn)
 {
     uint8_t buffer[128];
+    memset(buffer, 0, sizeof(buffer));
 
     auto res = recv(fd_, buffer, sizeof(buffer), 0);
 

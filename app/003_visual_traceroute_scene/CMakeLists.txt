@@ -38,8 +38,8 @@ target_compile_options(${PROJECT_NAME}
   PUBLIC
   ${CAIRO_CFLAGS_OTHER})
 
-
-install(FILES svg/ball.svg DESTINATION share/${PROJECT_NAME})
+install(FILES svg/laptop.svg DESTINATION share/${PROJECT_NAME})
+install(FILES svg/server.svg DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
