@@ -2,3 +2,6 @@ CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
 Makefile
+app/001_winter_scene/winter_scene
+app/002_spiral_scene/spiral_scene
+app/003_visual_traceroute_scene/visual_traceroute_scene
