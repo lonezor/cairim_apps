@@ -2,8 +2,6 @@
 
 #include <cairim/object.hpp>
 
-
-
 class snow_flake : public object
 {
     public:

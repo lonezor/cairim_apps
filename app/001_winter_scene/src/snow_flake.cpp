@@ -26,7 +26,7 @@ void snow_flake::draw(frame_context& fc)
     y_ += velocity_[1] - touch_force_;
 
     if (highres_mode_) {
-        angle_ -= 0.01;
+        angle_ -= 0.015;
         if (angle_ < 0){
             angle_ = 1;
         }

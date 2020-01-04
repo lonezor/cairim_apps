@@ -12,7 +12,9 @@ class winter_scene : public scene
         void draw_snowflakes(frame_context& fc);
 
     private:
-        std::vector<std::unique_ptr<snow_flake>> snow_flakes_;
         std::vector<std::unique_ptr<object>> bg_objects_;
+        std::vector<std::unique_ptr<snow_flake>> snow_flakes_;
+        uint64_t frames_{0};
+        
 };
 

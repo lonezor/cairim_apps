@@ -36,7 +36,7 @@ target_compile_options(${PROJECT_NAME}
   ${CAIRO_CFLAGS_OTHER})
 
 
-install(FILES svg/snow_wheel.svg DESTINATION share/${PROJECT_NAME})
+install(FILES svg/balloon.svg DESTINATION share/${PROJECT_NAME})
 install(FILES svg/snow_flake.svg DESTINATION share/${PROJECT_NAME})
 install(FILES svg/star.svg DESTINATION share/${PROJECT_NAME})
 install(FILES svg/mountain_background.svg DESTINATION share/${PROJECT_NAME})

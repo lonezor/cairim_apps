@@ -2,6 +2,7 @@
 #include "snow_flake.hpp"
 #include "mountain_background.hpp"
 #include "star.hpp"
+#include "balloon.hpp"
 
 winter_scene::winter_scene(double width, double height,
     std::shared_ptr<rendering_context> rc, uint64_t level_of_detail)
@@ -78,9 +79,28 @@ void winter_scene::draw_main(frame_context& fc)
     rc_->set_source_rgb(0.2,0,0.2);
     rc_->paint();
 
+    if (frames_ % 7200 == 0) {
+        bg_objects_.emplace_back(std::unique_ptr<object>(new balloon(-100,300, 300, 300, rc_, 
+            "/usr/local/share/winter_scene/balloon.svg")));
+    }
+
     for(auto&& obj : bg_objects_) {
         obj->draw(fc);
     }
 
+    for(auto it = bg_objects_.begin() ; it !=  bg_objects_.end(); it++) {
+
+        (*it)->draw(fc);
+
+        auto o_x = (*it)->get_x();
+        auto o_y = (*it)->get_y();
+        if (o_x > width_ * 2 || o_y > height_ * 2) {
+            bg_objects_.erase(it--);
+            continue;
+        }
+    }
+
     draw_snowflakes(fc);
+
+    frames_++;
 }
