@@ -21,6 +21,8 @@ target_link_libraries(${PROJECT_NAME}
   ${CAIRO_LIBRARIES}
   ${XLIB_LIBRARIES}
   ${RSVG_LIBRARIES}
+  pthread
+  png
 )
 
 target_include_directories(${PROJECT_NAME}

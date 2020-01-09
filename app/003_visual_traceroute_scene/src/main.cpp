@@ -18,12 +18,12 @@
 
 #include <memory>
 
-#include <cairim/capture_handler.hpp>
-#include <cairim/replay_handler.hpp>
-#include <cairim/constants.hpp>
+#include <cairim/cairim.hpp>
 
 #include "visual_traceroute_scene.hpp"
 #include "server_path.hpp"
+
+constexpr auto program_name = "Visual Traceroute Scene";
 
 int main(int argc, char* argv[])
 {
@@ -74,24 +74,26 @@ int main(int argc, char* argv[])
         path->print();
     }
 
-   
+    auto rep_width = replay_width_2k;
+    auto rep_height = replay_height_2k;
 
-    // Create main window
+    /*** Create Cairim capture scene ***/
+
     auto window = std::shared_ptr<cairo_xlib_window>(new cairo_xlib_window(capture_width,
                                                                            capture_height,
                                                                            window_xpos,
                                                                            window_ypos,
-                                                                           "Winter Scene",
+                                                                           std::string(program_name),
                                                                            false));
 
-    // Define rendering context
     auto cap_rc = std::shared_ptr<rendering_context>(new rendering_context(window->get_surface(),
                                                                        window->get_context(),
                                                                        capture_width,
                                                                        capture_height,
                                                                        scale_ref_width,
                                                                        scale_ref_height,
-                                                                       anti_aliasing::fast));
+                                                                       anti_aliasing::fast,
+                                                                       nullptr));
 
     auto cap_scene = std::shared_ptr<scene>(new vtr::visual_traceroute_scene(capture_width,
                                           capture_height,
@@ -99,33 +101,25 @@ int main(int argc, char* argv[])
                                           cap_rc,
                                           1001));
 
-    auto cap_handler = capture_handler(cap_scene, window, cap_rc);
+    /*** Create Cairim replay scene ***/
 
-    auto rep_width = replay_width_8k;
-    auto rep_height = replay_height_8k;
     auto image = cairo_image_surface(rep_width, rep_height);
-
+    auto png_gen = std::shared_ptr<png_generator>(new png_generator(8, std::string(default_png_dir), png_compression_level_min));
     auto rep_rc  = std::shared_ptr<rendering_context>(new rendering_context(image.get_surface(),
                                                                         image.get_context(),
                                                                         rep_width,
                                                                         rep_height,
                                                                         scale_ref_width,
                                                                         scale_ref_height,
-                                                                        anti_aliasing::best));
+                                                                        anti_aliasing::best,
+                                                                        png_gen));
 
     auto rep_scene = std::shared_ptr<scene>(new vtr::visual_traceroute_scene(scale_ref_width,
                                                              scale_ref_height,
                                                              paths,
                                                              rep_rc,
-                                                             2000));
-    // Capture user input until ESC key is pressed
-    auto frame_ctx_vector = cap_handler.run();
+                                                             2000));                                    
 
-    cap_handler.write_capture_file(frame_ctx_vector, "/tmp/out.cap");
-
-    // Replay user input and render high resolution output
-    auto rep_handler = replay_handler(rep_scene);
-    rep_handler.run(frame_ctx_vector, "/home/png");
-
-    return 0;
+    /*** Start Cairim (exit capture scene with ESC key) ***/
+    return cairim_main(argc, argv, window, cap_scene, rep_scene, false);
 }
