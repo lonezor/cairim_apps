@@ -44,7 +44,7 @@ void balloon::draw(frame_context& fc)
         thrust_ = 1;
     }
 
-    x_ += 0.6 + thrust_;
+    x_ += 0.3 + (thrust_ / 2);
     y_ += 0.5 - thrust_;
     
     draw_svg_surface(x_, y_, 0.95, 0.0);

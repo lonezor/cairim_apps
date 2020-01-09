@@ -19,8 +19,13 @@
 #include <cairim/capture_handler.hpp>
 #include <cairim/replay_handler.hpp>
 #include <cairim/constants.hpp>
+#include <cairim/png_generator.hpp>
 
 #include "winter_scene.hpp"
+
+// todo, move all common cairim code to library and just provide a cairim_main()
+// with overall config. Super simple on application level
+// cairim main can also handle argv to get common command line option interface
 
 int main(int argc, char* argv[])
 {
@@ -39,7 +44,8 @@ int main(int argc, char* argv[])
                                                                        capture_height,
                                                                        scale_ref_width,
                                                                        scale_ref_height,
-                                                                       anti_aliasing::fast));
+                                                                       anti_aliasing::fast,
+                                                                       nullptr));
 
     auto cap_scene = std::shared_ptr<scene>(new winter_scene(capture_width,
                                           capture_height,
@@ -48,9 +54,16 @@ int main(int argc, char* argv[])
 
     auto cap_handler = capture_handler(cap_scene, window, cap_rc);
 
-    auto rep_width = replay_width_8k;
-    auto rep_height = replay_height_8k;
+    // Capture user input until ESC key is pressed
+    auto frame_ctx_vector = cap_handler.run();
+
+    cap_handler.write_capture_file(frame_ctx_vector, "/tmp/out.cap");
+
+    auto rep_width = replay_width_2k;
+    auto rep_height = replay_height_2k;
     auto image = cairo_image_surface(rep_width, rep_height);
+
+    auto png_gen = std::shared_ptr<png_generator>(new png_generator(8, "/home/png", png_compression_level_min));
 
     auto rep_rc  = std::shared_ptr<rendering_context>(new rendering_context(image.get_surface(),
                                                                         image.get_context(),
@@ -58,16 +71,14 @@ int main(int argc, char* argv[])
                                                                         rep_height,
                                                                         scale_ref_width,
                                                                         scale_ref_height,
-                                                                        anti_aliasing::best));
+                                                                        anti_aliasing::best,
+                                                                        png_gen));
 
     auto rep_scene = std::shared_ptr<scene>(new winter_scene(scale_ref_width,
                                                              scale_ref_height,
                                                              rep_rc,
                                                              2000));
-    // Capture user input until ESC key is pressed
-    auto frame_ctx_vector = cap_handler.run();
 
-    cap_handler.write_capture_file(frame_ctx_vector, "/tmp/out.cap");
     
     // Replay user input and render high resolution output
     auto rep_handler = replay_handler(rep_scene);
