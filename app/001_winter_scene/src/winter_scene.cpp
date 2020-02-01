@@ -97,7 +97,7 @@ void winter_scene::draw_main(frame_context& fc)
     rc_->set_source_rgb(0.2,0,0.2);
     rc_->paint();
 
-    if (frames_ % 7200 == 0) {
+    if (frames_ % (3600*3) == 0) {
         bg_objects_.emplace_back(std::unique_ptr<object>(new balloon(-100,300, 300, 300, rc_, 
             "/usr/local/share/winter_scene/balloon.svg")));
     }

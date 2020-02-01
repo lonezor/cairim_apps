@@ -29,13 +29,13 @@ balloon::balloon(double x, double y, double width, double height, std::shared_pt
 void balloon::draw(frame_context& fc)
 {
     // Too low: force upwards
-   if (y_ > 370) {
-       thrust_ += 0.004;
+   if (y_ > 500) {
+       thrust_ += 0.001;
    }
 
    // Too high: force downwards
    else if (y_ < 185) {
-       thrust_ -= 0.004;
+       thrust_ -= 0.001;
    }
 
     if (thrust_ < 0) {
@@ -44,8 +44,8 @@ void balloon::draw(frame_context& fc)
         thrust_ = 1;
     }
 
-    x_ += 0.3 + (thrust_ / 2);
-    y_ += 0.5 - thrust_;
+    x_ += 0.05 + (thrust_ / 2);
+    y_ += 0.1 - thrust_;
     
     draw_svg_surface(x_, y_, 0.95, 0.0);
 }

@@ -24,8 +24,8 @@ constexpr auto program_name = "Winter Scene";
 
 int main(int argc, char* argv[])
 {
-    auto rep_width = replay_width_2k;
-    auto rep_height = replay_height_2k;
+    auto rep_width = replay_width_4k;
+    auto rep_height = replay_height_4k;
 
     /*** Create Cairim capture scene ***/
 
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
     auto rep_scene = std::shared_ptr<scene>(new winter_scene(scale_ref_width,
                                                              scale_ref_height,
                                                              rep_rc,
-                                                             2000));                                    
+                                                             2000));
 
     /*** Start Cairim (exit capture scene with ESC key) ***/
     return cairim_main(argc, argv, window, cap_scene, rep_scene, false);
